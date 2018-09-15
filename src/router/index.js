@@ -6,7 +6,7 @@ Vue.use(Router)
 
 const components = {
   login : ()=>import('@/view/login/login'),
-  index : ()=>import('@/view/layout/layout')
+  home : ()=>import('@/view/layout/layout')
 }
 
 export default new Router({
@@ -17,7 +17,49 @@ export default new Router({
     },
     {
       path:'/home',
-      component: components.index
-    }
+      component: components.home,
+      children:[
+        {
+          path:'bookList',
+          component:()=>import('@/view/book/bookList')
+        },
+        {
+          path:'bookAdd',
+          component:()=>import('@/view/book/bookAdd')
+        },
+        {
+          path:'userList',
+          component:()=>import('@/view/user/userList')
+        },
+        {
+          path:'userAdd',
+          component:()=>import('@/view/user/userAdd')
+        },
+        {
+          path:'userInfo',
+          component:()=>import('@/view/user/userInfo')
+        },
+        {
+          path:'userPwd',
+          component:()=>import('@/view/user/userPwd')
+        },
+        {
+          path:'categoryAdd',
+          component:()=>import('@/view/category/categoryAdd')
+        },
+        {
+          path:'categoryList',
+          component:()=>import('@/view/category/categoryList')
+        },
+        {
+          path:'sideShow',
+          component:()=>import('@/view/sideshow/sideShow')
+        },
+      ]
+    },
+    // {
+    //   path: '/bookList',
+    //   component: ()=>import('@/view/book/bookList')
+    // }
   ]
 })

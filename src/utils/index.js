@@ -20,6 +20,13 @@ const xhr = {
             })
         })
     },
+    put (url, data, config) {
+        return new Promise((resolve, reject) => {
+            instance.put(url, data, config).then(res => {
+                resolve(res.data)
+            })
+        })
+    }
 }
 
 export default xhr

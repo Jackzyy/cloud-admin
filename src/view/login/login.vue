@@ -43,7 +43,7 @@ export default {
         if (res.code == 200) {
           Message.success(res.msg)
           setTimeout(() => {
-            this.$router.push('/index')
+            this.$router.push('/home')
           }, 1000);
         }
       }).catch(err => {
