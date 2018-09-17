@@ -26,7 +26,14 @@ const xhr = {
                 resolve(res.data)
             })
         })
-    }
+    },
+    delete (url, data, config) {
+        return new Promise((resolve, reject) => {
+            instance.delete(url, {params:data}, config).then(res => {
+                resolve(res.data)
+            })
+        })
+    },
 }
 
 export default xhr

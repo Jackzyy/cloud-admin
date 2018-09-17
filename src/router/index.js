@@ -28,6 +28,10 @@ export default new Router({
           component:()=>import('@/view/book/bookAdd')
         },
         {
+          path:'bookEdit',
+          component:()=>import('@/view/book/bookEdit')
+        },
+        {
           path:'userList',
           component:()=>import('@/view/user/userList')
         },
@@ -55,11 +59,15 @@ export default new Router({
           path:'sideShow',
           component:()=>import('@/view/sideshow/sideShow')
         },
+        {
+          path:'categoryEdit',
+          component:()=>import('@/view/category/categoryEdit')
+        },
+        {
+          path:'categoryInfo',
+          component:()=>import('@/view/category/categoryInfo')
+        }
       ]
-    },
-    // {
-    //   path: '/bookList',
-    //   component: ()=>import('@/view/book/bookList')
-    // }
+    }
   ]
 })

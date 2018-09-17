@@ -35,7 +35,7 @@
               <template slot-scope="scope">
                 <el-button
                   size="mini"
-                  @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                  @click="handleEdit(scope.row)">编辑</el-button>
                 <el-button
                   size="mini"
                   type="danger"
@@ -60,6 +60,9 @@
                     console.log(res);
                     this.tableData = res.data
                 })
+            },
+            handleEdit(book){
+                this.$router.push('/home/bookEdit/?id='+book._id)
             }
         },
         created(){

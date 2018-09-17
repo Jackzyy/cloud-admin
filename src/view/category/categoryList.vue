@@ -44,14 +44,14 @@
               <template slot-scope="scope">
                 <el-button
                     size="mini"
-                    @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                    @click="handleEdit(scope.row)">编辑</el-button>
                 <el-button
                     size="mini"
-                    @click="handleEdit(scope.$index, scope.row)">详情</el-button>
+                    @click="handleInfo(scope.row)">详情</el-button>
                 <el-button
                     size="mini"
                     type="danger"
-                    @click="handleDelete(scope.$index, scope.row)">删除该书</el-button>
+                    @click="handleDelete(scope.row)">删除该分类</el-button>
               </template>
             </el-table-column>
         </el-table>
@@ -68,6 +68,11 @@
                         pn:998,
                         size:998
                     }
+                },
+                categoryId:{
+                    params:{
+                        id:''
+                    }
                 }
             }
         },
@@ -77,6 +82,35 @@
                     console.log(res);
                     this.tableData = res.data
                 })
+            },
+            handleEdit(info){
+                console.log(info._id);
+                this.$router.push('/home/categoryEdit?id='+info._id)
+            },
+            handleInfo(info){
+                this.$router.push('/home/categoryInfo?id='+info._id)
+            },
+            handleDelete(info){
+                this.categoryId.id = info._id
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$axios.delete('/category/'+info._id,this.categoryId).then(res => {
+                        console.log(res);
+                        this. getcategoryList()
+                    })
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                    });
+                }).catch(() => {
+                    this.$message({
+                      type: 'info',
+                      message: '已取消删除'
+                    });          
+                });
             }
         },
         created(){

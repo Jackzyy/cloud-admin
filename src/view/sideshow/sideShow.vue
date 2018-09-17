@@ -28,7 +28,7 @@
             </el-table-column>
             <el-table-column
                 label="标题"
-                width="120">
+                width="230">
                 <template slot-scope="scope">
                     <span> {{scope.row.title}} </span>
               </template>

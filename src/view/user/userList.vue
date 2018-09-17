@@ -75,10 +75,25 @@
             },
             handleDelete(id){
                 console.log(id);
-                this.$axios.post('/user/delete',{userIds:id}).then(res => {
-                    console.log(res);
-                    this.getUser()
-                })
+                this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => { 
+                    this.$axios.post('/user/delete',{userIds:id}).then(res => {
+                        console.log(res);
+                        this.getUser()
+                    })
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                    });
+                }).catch(() => {
+                    this.$message({
+                      type: 'info',
+                      message: '已取消删除'
+                    });          
+                });
             }
         },
         created(){
