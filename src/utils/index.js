@@ -1,4 +1,6 @@
 import axios from 'axios'
+import router from '../router'
+import { Notification } from 'element-ui'
 
 var instance = axios.create({
     baseURL: '/api/admin',
@@ -9,6 +11,12 @@ const xhr = {
     get (url, data, config) {
         return new Promise((resolve, reject) => {
             instance.get(url, {params:data}, config).then(res => {
+                if(res.data.code == 401){
+                    Notification.error('登录状态失效，请重新登录')
+                    setTimeout(() => {
+                        router.push('/login')
+                    }, 1000);
+                }
                 resolve(res.data)
             })
         })
@@ -16,6 +24,12 @@ const xhr = {
     post (url, data, config) {
         return new Promise((resolve, reject) => {
             instance.post(url, data, config).then(res => {
+                if(res.data.code == 401){
+                    Notification.error('登录状态失效，请重新登录')
+                    setTimeout(() => {
+                        router.push('/login')
+                    }, 1000);
+                }
                 resolve(res.data)
             })
         })
@@ -23,6 +37,12 @@ const xhr = {
     put (url, data, config) {
         return new Promise((resolve, reject) => {
             instance.put(url, data, config).then(res => {
+                if(res.data.code == 401){
+                    Notification.error('登录状态失效，请重新登录')
+                    setTimeout(() => {
+                        router.push('/login')
+                    }, 1000);
+                }
                 resolve(res.data)
             })
         })
@@ -30,6 +50,12 @@ const xhr = {
     delete (url, data, config) {
         return new Promise((resolve, reject) => {
             instance.delete(url, {params:data}, config).then(res => {
+                if(res.data.code == 401){
+                    Notification.error('登录状态失效，请重新登录')
+                    setTimeout(() => {
+                        router.push('/login')
+                    }, 1000);
+                }
                 resolve(res.data)
             })
         })

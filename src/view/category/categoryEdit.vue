@@ -1,21 +1,5 @@
 <template>
     <div class="category-edit">
-        <el-form ref="form" :model="form" label-width="100px" class="form-left">
-            <el-form-item label="类别名称">
-                <el-input type="text" :value="bookInfo.title"></el-input>
-            </el-form-item>
-            <el-form-item label="类别图标">
-                <img :src="bookInfo.icon" alt="pic" class="img">
-            </el-form-item>
-            <el-form-item label="优先级">
-                <el-input type="text" :value="bookInfo.index"></el-input>
-            </el-form-item>
-        </el-form>
-
-        <div class="side">
-            <span>修改为=></span>
-        </div>
-
         <el-form ref="form" :model="form" label-width="100px" class="form-right">
             <el-form-item label="类别名称">
                 <el-input type="text" v-model="form.title"></el-input>
@@ -49,7 +33,6 @@
                     index:'',
                 },
                 categoryId:'',
-                bookInfo:{}
             }
         },
         methods: {
@@ -57,17 +40,20 @@
                 this.$axios.put('/category/'+this.categoryId,this.form).then(res => {
                     console.log(res);
                     if(res.code == 200){
-                        Message.success(分类修改成功)
+                        Message.success('分类修改成功')
+                        setTimeout(() => {
+                            this.$router.push('/home/categoryList')
+                        }, 1000);
                     }
                 })
             }
         },
         created(){
-            console.log(this.$route.query.id);
+            // console.log(this.$route.query.id);
             this.categoryId = this.$route.query.id;
             this.$axios.get('/category/'+this.categoryId).then(res => {
                 console.log(res);
-                this.bookInfo = res.data
+                this.form = res.data
             })
         }
     }
@@ -76,21 +62,8 @@
 <style scoped lang="scss">
     .category-edit{
         width: 1000px;
-        height: 200px;
         margin-left: 210px;
         margin-top: 50px;
-        display: flex;
-        justify-content: space-between;
-        .side{
-            display: flex;
-            margin: auto;
-            font-weight: 600;
-            font-size: 25px;
-        }
-        .form-left{
-            width: 400px
-            
-        }
         .img{
             width: 80px;
             height: 80px;

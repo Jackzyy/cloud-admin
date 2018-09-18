@@ -1,6 +1,6 @@
 <template>
     <div class="user-info">
-        <el-form label-width="100px" class="demo-ruleForm form">
+        <el-form :model="user" label-width="100px" class="demo-ruleForm form">
             <el-form-item label="用户头像">
                 <imgUpload v-model="user.avatar"></imgUpload>
             </el-form-item>
@@ -15,6 +15,7 @@
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="submitForm">提交</el-button>
+                <el-button type="primary" @click="test">测试Store</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -34,7 +35,8 @@
                     avatar:'',
                     desc:'',
                     email:'',
-                    nickname:''
+                    nickname:'',
+                    username:''
                 }
             }
         },
@@ -46,8 +48,20 @@
                         Message.success('个人信息修改成功!')
                     }
                 })
+            },
+            test(){
+                // console.log(this.$store.state);
+                console.log(this.user);
+            },
+            getUserinfo(){
+                this.user = {
+                    ...this.$store.state.userInfo
+                }
             }
         },
+        mounted(){
+            this.getUserinfo()
+        }
     }
 </script>
 

@@ -1,23 +1,31 @@
 <template>
     <div class="book-edit">
         <el-form ref="form" :model="form" label-width="100px" class="form-right">
+            <el-form-item label="标题：">
+                <span>{{form.title}}</span>
+            </el-form-item>
             <el-form-item label="作者：">
-                <el-input type="text" v-model="bookInfo.author"></el-input>
+                <el-input type="text" v-model="form.author"></el-input>
             </el-form-item>
             <el-form-item label="书本图标：">
-                <imgUpload v-model="bookInfo.img"></imgUpload>
+                <imgUpload v-model="form.img"></imgUpload>
             </el-form-item>
             <el-form-item label="优先级：">
-                <el-input type="text" v-model="bookInfo.index"></el-input>
-            </el-form-item>
-            <el-form-item label="标题：">
-                <el-input type="text" v-model="bookInfo.title"></el-input>
+                <el-input type="text" v-model="form.index"></el-input>
             </el-form-item>
             <el-form-item label="分类：">
-                <el-input type="text" v-model="bookInfo.type"></el-input>
+                <el-select v-model="form.type" placeholder="请选择" @blur="blur">
+                    <el-option
+                        v-for="item in categoryTitle"
+                        :key="item.value"
+                        :label="item.title"
+                        :value="item.type"
+                        >
+                    </el-option>
+                </el-select>
             </el-form-item>
             <el-form-item label="描述：">
-                <el-input type="textarea" v-model="bookInfo.desc"></el-input>
+                <el-input type="textarea" v-model="form.desc"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="onSubmit">修改图书</el-button>
@@ -36,6 +44,7 @@
         },
         data() {
             return {
+                categoryTitle:[],
                 form:{
                     book_id:'',
                     index:'',
@@ -44,32 +53,62 @@
                     img:'',
                     type:''
                 },
-                id:{
+                category:{
                     params:{
-                        bookId:''
+                        pn:998,
+                        size:998
                     }
                 },
-                bookId:'',
-                bookInfo:{}
+                bookId:''
             }
         },
         methods: {
+            blur(e){
+                console.log(e);
+                console.log(this.form.type);
+            },
             onSubmit() {
-                this.$axios.put('/book',this.form).then(res => {
+                let params = {
+                    ...this.form,
+                    book_id:this.bookId
+                }
+                this.$axios.put('/book',params).then(res => {
                     console.log(res);
                     if(res.code == 200){
-                        Message.success(图书修改成功)
+                        Message.success('图书修改成功')
+                        setTimeout(() => {
+                            this.$router.push('/home/bookList')
+                        }, 1000);
                     }
+                })
+            },
+            getCategory(){
+                this.$axios.get('/category',this.category).then(res => {
+                    console.log('category',res);
+                    res.data.forEach((element,index) => {
+                        let obj = {
+                            value:index,
+                            title:element.title,
+                            type:element._id
+                        }
+                        this.categoryTitle.push(obj)
+                    });
+                    console.log(this.categoryTitle);
+                })
+            },
+            getBook(bookId){
+                this.$axios.get('/book/'+bookId).then(res => {
+                    console.log(res)
+                    this.form = res.data
+                    console.log(this.form);
                 })
             }
         },
         created(){
             console.log(this.$route.query.id);
             this.bookId = this.$route.query.id;
-            this.$axios.get('/book/'+this.bookId,this.id).then(res => {
-                console.log(res);
-                this.bookInfo = res.data
-            })
+            this.getCategory()
+            this.getBook(this.bookId)
         }
     }
 </script>
@@ -77,7 +116,7 @@
 <style scoped lang="scss">
     .book-edit{
         width: 1000px;
-        height: 350px;
+        height: 550px;
         margin-left: 210px;
         margin-top: 50px;
         display: flex;

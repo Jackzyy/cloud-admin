@@ -14,7 +14,6 @@
                   <el-button type="primary" class="btn" @click="handleLogin" :loading="isLoading">登录</el-button>
                 </el-form-item>
             </el-form>
-            
         </div>
     </div>
 </template>
@@ -35,16 +34,17 @@ export default {
   methods: {
     handleLogin() {
       this.isLoading = true
-      // console.log(this.$axios);
-      // console.log(this.formData.username);
-      // console.log(this.formData.password);
       this.$axios.post('/login',this.formData).then(res => {
         console.log(res);
         if (res.code == 200) {
+          this.$store.commit('CHANGE_USERINFO',res.data)
           Message.success(res.msg)
           setTimeout(() => {
-            this.$router.push('/home')
+            this.$router.push('/home/userList')
           }, 1000);
+        }else if(res.code == 403){
+          Message(res.msg)
+          this.isLoading = false
         }
       }).catch(err => {
         this.isLoading = true
@@ -57,13 +57,13 @@ export default {
 
 <style lang="scss">
 * {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 h1{
     text-align: center;
     color: #fff;
-    margin-top: 50px;
+    margin-top: 150px;
 }
 .container {
   height: 100vh;

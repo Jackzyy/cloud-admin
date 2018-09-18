@@ -4,34 +4,40 @@
             :data="tableData"
             style="width: 100%">
             <el-table-column
+              label="书籍头图"
+              width="120"
+              align="center">
+              <template slot-scope="scope">
+                  <div class="img">
+                      <img :src="scope.row.img" style="width:50px" alt="pic">
+                  </div>
+              </template>
+            </el-table-column>
+            <el-table-column
               label="书名"
-              width="350">
+              width="350"
+              align="center">
               <template slot-scope="scope">
                 <span>{{ scope.row.title }}</span>
               </template>
             </el-table-column>
             <el-table-column
-              label="书籍头图"
-              width="180">
-              <template slot-scope="scope">
-                  <img :src="scope.row.img" style="width:50px" alt="pic">
-              </template>
-            </el-table-column>
-            <el-table-column
               label="书籍排序"
-              width="180">
+              width="180"
+              align="center">
               <template slot-scope="scope">
                   <span>{{ scope.row.index }}</span>
               </template>
             </el-table-column>
             <el-table-column
               label="作者"
-              width="180">
+              width="180"
+              align="center">
               <template slot-scope="scope">
                   <span>{{ scope.row.author }}</span>
               </template>
             </el-table-column>
-            <el-table-column label="操作">
+            <el-table-column label="操作" align="center">
               <template slot-scope="scope">
                 <el-button
                   size="mini"
@@ -74,5 +80,16 @@
 <style scoped lang="scss">
     .book-list{
         margin-left: 210px;
+    }
+    .img{
+        width:50px;
+        height:50px;
+        border-radius: 50px;
+        overflow: hidden;
+        margin: 0 auto;
+        img{
+            width:50px;
+            height:50px;
+        }
     }
 </style>

@@ -20,6 +20,8 @@
 
 <script>
     import imgUpload from '@/components/imgUpload'
+    import { Message } from 'element-ui';
+
     export default {
         components:{
             imgUpload
@@ -36,6 +38,12 @@
             onSubmit() {
                 this.$axios.post('/category',this.form).then(res => {
                     console.log(res);
+                    if (res.code == 200) {
+                        Message.success('分类添加成功')
+                        setTimeout(() => {
+                            this.$router.push('/home/categoryList')
+                        }, 1000);
+                    }
                 })
             }
         },

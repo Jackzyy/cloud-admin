@@ -5,7 +5,8 @@
             style="width: 100%">
             <el-table-column
               label="用户头像"
-              width="120">
+              width="120"
+              align="center">
               <template slot-scope="scope">
                   <div class="img">
                       <img :src="scope.row.avatar" alt="pic">
@@ -14,33 +15,37 @@
             </el-table-column>
             <el-table-column
               label="用户名"
-              width="150">
+              width="150"
+              align="center">
               <template slot-scope="scope">
                 <span>{{ scope.row.username }}</span>
               </template>
             </el-table-column>
             <el-table-column
               label="昵称"
-              width="180">
+              width="180"
+              align="center">
               <template slot-scope="scope">
                 <span>{{ scope.row.nickname }}</span>
               </template>
             </el-table-column>
             <el-table-column
               label="个性签名"
-              width="300">
+              width="300"
+              align="center">
               <template slot-scope="scope">
                   <span>{{ scope.row.desc }}</span>
               </template>
             </el-table-column>
             <el-table-column
               label="创建时间"
-              width="250">
+              width="250"
+              align="center">
               <template slot-scope="scope">
                   <span>{{ scope.row.updatedTime }}</span>
               </template>
             </el-table-column>
-            <el-table-column label="操作">
+            <el-table-column label="操作" align="center">
               <template slot-scope="scope">
                 <el-button
                   size="mini"
@@ -50,11 +55,11 @@
             </el-table-column>
         </el-table>
         <el-pagination
-            :page-size="20"
-            :pager-count="11"
+            background
             layout="prev, pager, next"
-            :total="1000"
-            class="pag">
+            :total="count"
+            @current-change="next"
+            class="page-nav">
         </el-pagination>
   </div>
 </template>
@@ -63,18 +68,26 @@
     export default {
         data() {
             return {
-                tableData: []
+                tableData: [],
+                page:'',
+                count:''
             }
         },
         methods: {
+            next(page){
+                // console.log(page);
+                this.page = page
+                this.getUser()
+            },
             getUser() {
-                this.$axios.get('/user').then(res => {
-                    console.log(res);
-                    this.tableData = res.data
+                this.$axios.get('/user',{pn:this.page,size:7}).then(res => {
+                    // console.log(res);
+                    this.tableData = res.data;
+                    this.count = res.count
                 })
             },
             handleDelete(id){
-                console.log(id);
+                // console.log(id);
                 this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
@@ -106,20 +119,22 @@
     .user-list{
         margin-left: 210px;
         position: relative;
+        height: 650px;
         .img{
             width:50px;
             height:50px;
             border-radius: 50px;
             overflow: hidden;
+            margin: 0 auto;
             img{
                 width:50px;
                 height:50px;
             }
-        }
-        .pag{
+        }  
+        .page-nav{
             position: absolute;
             right: 100px;
-            bottom:-80px;
-        }   
+            bottom: 20px;
+        } 
     }
 </style>

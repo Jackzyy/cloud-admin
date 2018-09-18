@@ -5,7 +5,8 @@
             style="width: 100%">
             <el-table-column
               label="书籍头图"
-              width="100">
+              width="100"
+              align="center">
               <template slot-scope="scope">
                   <div class="img">
                       <img :src="scope.row.icon" alt="pic">
@@ -14,33 +15,37 @@
             </el-table-column>
             <el-table-column
               label="类名"
-              width="150">
+              width="150"
+              align="center">
               <template slot-scope="scope">
                 <span>{{ scope.row.title }}</span>
               </template>
             </el-table-column>
             <el-table-column
               label="书籍序列"
-              width="150">
+              width="150"
+              align="center">
               <template slot-scope="scope">
                   <span>{{ scope.row.index }}</span>
               </template>
             </el-table-column>
             <el-table-column
               label="BOOK_ID"
-              width="250">
+              width="250"
+              align="center">
               <template slot-scope="scope">
                   <span>{{ scope.row._id }}</span>
               </template>
             </el-table-column>
             <el-table-column
               label="数量"
-              width="100">
+              width="100"
+              align="center">
               <template slot-scope="scope">
                 <span>{{ scope.row.books.length }}</span>
               </template>
             </el-table-column>
-            <el-table-column label="操作">
+            <el-table-column label="操作" align="center">
               <template slot-scope="scope">
                 <el-button
                     size="mini"
@@ -127,6 +132,7 @@
             height:50px;
             border-radius: 50px;
             overflow: hidden;
+            margin: 0 auto;
             img{
                 width:50px;
                 height:50px;

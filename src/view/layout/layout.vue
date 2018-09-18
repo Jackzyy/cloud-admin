@@ -2,9 +2,14 @@
     <div class="layout">
         <div class="header">
             <span>猿书后台操作系统</span>
-            <span></span>
         </div>
         <div class="sidebar">
+          <div class="user">
+            <img class="img" :src="userInfo.avatar" alt="">
+            <el-button class="btn" type="info" round @click="logout">
+              管理员登出
+            </el-button>
+          </div>
             <el-menu
                 :router="true"
                 background-color="#545c64"
@@ -81,31 +86,72 @@
             <router-view></router-view>
         </div>
     </div>
-    
 </template>
 
 <script>
+import { Notification } from 'element-ui'
     export default {
-        
+      data() {
+        return {
+          userInfo: {}
+        }
+      },
+      methods: {
+        logout() {
+          this.$axios.get('/logout').then(res =>{
+            console.log(res);
+            this.$router.push('/login')
+            Notification.success('登出成功')
+          })
+        }
+      },
+      created(){
+        this.userInfo = {
+          ...this.$store.state.userInfo
+        }
+      }
     }
 </script>
 
 <style scoped lang="scss">
-    *{margin: 0;padding: 0;}
+    .layout{
+      overflow: hidden;
+    }
     .sidebar{
         width: 210px;
         background-color: #545c64;
         position: fixed;
         top: 0;
         left: 0;
-        bottom: 0
+        bottom: 0;
+        .user{
+          margin-top: 20px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          .img{
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            margin-top: 20px
+          }
+          .btn{
+            margin: 30px;
+          }
+        }
     }
     .header{
-        height: 60px;
+        width: 100%;
+        height: 80px;
         margin-left: 210px;
-        line-height: 60px;
-        font-size: 25px;
+        line-height: 80px;
+        font-size: 28px;
         border-bottom: 1px solid #f1f1f1;
-        text-align: center
+        text-align: center;
+        background-color: #545c64;
+        span{
+          margin-left: -180px;
+        }
     }
 </style>
